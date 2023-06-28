@@ -1,0 +1,21 @@
+{
+  "product": {
+    "category": "Kategória",
+    "create": "Új termék létrehozása",
+    "description": "Leírás",
+    "edit": "Termék módosítása",
+    "name": "Név",
+    "owner": "Tulajdonos",
+    "price": "Ár",
+    "size": "Méret",
+    "imagesFolder": "Kép mappa",
+    "status": "Státusz"
+  },
+  "createNew": "Új {{name}} hozzáadás",
+  "modal": {
+    "deleteProduct": {
+      "title": "Termék törlés",
+      "description": "Biztos hogy törlöd a {{productName}} terméket?"
+    }
+  }
+}

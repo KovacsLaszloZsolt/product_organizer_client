@@ -1,1 +1,87 @@
-{ "title": "Title" }
+{
+  "currency": "Ft",
+  "title": "Title",
+  "login": {
+    "login": "Bejelentkezés",
+    "email": "Email",
+    "password": "Jelszó"
+  },
+  "logout": "Kijelentkezés",
+  "cancel": "Mégse",
+  "close": "Bezár",
+  "error": {
+    "isRequired": "{{field}} kötelező",
+    "emailIsInvalid": "Helytelen email cím"
+  },
+  "create": "Hozzáadás",
+  "edit": "Módosítás",
+  "delete": "Törlés",
+  "details": "Részletek",
+  "select": {
+    "all": "Mind"
+  },
+  "save": "Mentés",
+  "toolbar": {
+    "button": {
+      "filter": "Szűrő",
+      "apply": "Szűrők mentése",
+      "delete": "Szűrők törlése"
+    }
+  },
+  "status": {
+    "status": "Státusz",
+    "AVAILABLE": "Elérhető",
+    "BOOKED": "Foglalt",
+    "SOLD": "Eladva"
+  },
+  "hello": "Szia",
+  "toast": {
+    "login": {
+      "error": "Hibás felhasználónév vagy jelszó"
+    },
+    "updateStatus": {
+      "error": "Hiba történt a termék állapotának frissítése közben",
+      "success": "Termék állapota sikeresen frissítve "
+    },
+    "fetchCategories": {
+      "error": "Hiba történt a kategóriák lekérése közben"
+    },
+    "fetchProducts": {
+      "error": "Hiba történt a termékek lekérése közben"
+    },
+    "fetchProduct": {
+      "error": "Hiba történt a termék lekérése közben"
+    },
+    "createProduct": {
+      "error": "Hiba történt termék létrehozás közben",
+      "success": "Termék sikeresen létrehozva"
+    },
+    "updateProduct": {
+      "error": "Hiba történt termék frissítése közben",
+      "success": "Termék sikeresen frissítve"
+    },
+    "createCategory": {
+      "error": "Hiba történt kategória létrehozás közben",
+      "success": "Kategória sikeresen létrehozva"
+    },
+    "fetchProductOwner": {
+      "error": "Hiba történt a termék tulajdonosok lekérése közben"
+    },
+    "createProductOwner": {
+      "error": "Hiba történt tulajdonos létrehozás közben",
+      "success": "Tulajdonos sikeresen létrehozva"
+    },
+    "deleteProduct": {
+      "error": "Hiba történt termék törlése közben",
+      "success": "Termék sikeresen törölve"
+    },
+    "createImagesFolder": {
+      "success": "Mappa sikeresen létrehozva",
+      "error": "Hiba történt mappa létrehozása közben"
+    },
+    "fetchImagesFolders": {
+      "error": "Hiba történt mappák lekérése közben"
+    }
+  },
+  "uploadImages": "Kép feltöltés"
+}

@@ -1,7 +1,7 @@
 {
   "root": true,
   "parser": "@typescript-eslint/parser",
-  "plugins": ["react", "@typescript-eslint"],
+  "plugins": ["react", "@typescript-eslint", "@emotion"],
   "extends": [
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
@@ -9,6 +9,7 @@
     "plugin:import/recommended",
     "plugin:import/typescript",
     "plugin:security/recommended"
+    // "prettier"
   ],
   "rules": {
     "camelcase": "error",
@@ -42,7 +43,11 @@
       { "blankLine": "always", "prev": "import", "next": "*" },
       { "blankLine": "any", "prev": "import", "next": "import" },
       { "blankLine": "always", "prev": "function", "next": "*" }
-    ]
+    ],
+    "@emotion/jsx-import": "error",
+    "@emotion/no-vanilla": "error",
+    "@emotion/import-from-emotion": "error",
+    "@emotion/styled-import": "error"
   },
   "overrides": [
     // Next.js needs default exports for pages and API points
