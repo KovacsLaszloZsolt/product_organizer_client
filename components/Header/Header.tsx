@@ -23,7 +23,7 @@ export const Header = (): JSX.Element => {
     <>
       <S.Header>
         <S.Wrapper>
-          <S.PageTitle>Eszter page</S.PageTitle>
+          <S.PageTitle>{t('pageTitle')}</S.PageTitle>
           {user ? <UserMenu /> : <Login />}
         </S.Wrapper>
         <>
