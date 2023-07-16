@@ -1,7 +1,7 @@
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 import { useTranslation } from 'next-i18next';
 import { deleteProduct } from '../../../api/product';
-import { useProduct } from '../../commonHooks/useProduct';
+import { useProduct } from '../../hooks/useProduct';
 
 interface IntDeleteProductModalProps {
   productId: number;

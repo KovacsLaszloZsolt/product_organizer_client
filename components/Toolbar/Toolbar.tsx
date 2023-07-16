@@ -10,9 +10,9 @@ import { useProductsStore } from '../../store/home';
 import { RoleEnum } from '../../types/auth';
 import { StatusEnum, StatusType } from '../../types/product';
 import { useImagesFolderSelector } from '../ImagesFolderSelector/useImagesFolderSelector';
-import { useProductCategory } from '../ProductCategorySelector/useProductCategory';
-import { useProductOwner } from '../ProductOwnerSelector/useProductOwner';
-import { useUser } from '../commonHooks/useUser';
+import { useProductCategory } from '../hooks/useProductCategory';
+import { useProductOwner } from '../hooks/useProductOwner';
+import { useUser } from '../hooks/useUser';
 import * as S from './Toolbar.styles';
 import { ToolbarMultiSelect } from './ToolbarMultiSelect';
 

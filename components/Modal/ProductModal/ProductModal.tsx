@@ -15,13 +15,21 @@ import Image from 'next/image';
 import { useMemo, useState } from 'react';
 import * as Yup from 'yup';
 import { createProduct, patchProduct } from '../../../api/product';
-import { ImageTypeEnum, IntDeletedImage, IntProduct, StatusEnum } from '../../../types/product';
+import { availableProductStatuses } from '../../../constants/product';
+import {
+  ImageTypeEnum,
+  IntDeletedImage,
+  IntProduct,
+  SelectTypeEnum,
+  StatusEnum
+} from '../../../types/product';
 import { ContentCopy } from '../../ContentCopy/ContentCopy';
-import { ImagesFolderSelector } from '../../ImagesFolderSelector/ImagesFolderSelector';
-import { ProductCategorySelector } from '../../ProductCategorySelector/ProductCategorySelector';
-import { ProductOwnerSelector } from '../../ProductOwnerSelector/ProductOwnerSelector';
-import { ProductStatusSelector } from '../../ProductStatusSelector/ProductStatusSelector';
-import { useProduct } from '../../commonHooks/useProduct';
+import { useImagesFolderSelector } from '../../ImagesFolderSelector/useImagesFolderSelector';
+import { ProductSelectField } from '../../ProductSelectField/ProductSelectField';
+import { useProduct } from '../../hooks/useProduct';
+import { useProductBrand } from '../../hooks/useProductBrand';
+import { useProductCategory } from '../../hooks/useProductCategory';
+import { useProductOwner } from '../../hooks/useProductOwner';
 import * as S from './ProductModal.styles';
 
 interface ProductModalProps {
@@ -50,6 +58,10 @@ export const ProductModal = ({ product, onClose }: ProductModalProps): JSX.Eleme
   };
 
   const { mutateProduct, isMutateProductLoading } = useProduct({ afterOnSuccess: handleClose });
+  const { imagesFolders, createImageFolder } = useImagesFolderSelector();
+  const { productOwners, createProductOwner } = useProductOwner();
+  const { categories, createCategory } = useProductCategory();
+  const { brands, createBrand } = useProductBrand();
 
   const images = useMemo(() => {
     const oldImages = product?.images
@@ -101,7 +113,7 @@ export const ProductModal = ({ product, onClose }: ProductModalProps): JSX.Eleme
       name: product?.name ?? '',
       description: product?.description ?? '',
       price: product?.price ?? null,
-      size: product?.size ?? null,
+      brandId: product?.brandId ?? null,
       ownerId: product?.ownerId ?? null,
       categoryId: product?.categoryId ?? null,
       status: product?.status ?? StatusEnum.AVAILABLE,
@@ -182,13 +194,18 @@ export const ProductModal = ({ product, onClose }: ProductModalProps): JSX.Eleme
               />
               <ContentCopy value={values.description} />
             </S.InputWrapper>
-            <ProductStatusSelector
-              status={values.status}
-              onChange={(e): void => {
-                setFieldValue('status', e.target.value);
+
+            <ProductSelectField
+              options={availableProductStatuses.map((status) => ({ id: status, name: status }))}
+              type={SelectTypeEnum.STATUS}
+              value={values.status}
+              defaultValue={StatusEnum.AVAILABLE}
+              onChange={(value): void => {
+                setFieldValue('status', value);
               }}
-              style={{ width: '100%', marginBottom: '2rem' }}
+              style={{ width: '100%' }}
             />
+
             <S.InputWrapper>
               <S.InputField
                 id="price"
@@ -205,46 +222,61 @@ export const ProductModal = ({ product, onClose }: ProductModalProps): JSX.Eleme
               />
               <ContentCopy value={`${values.price}`} />
             </S.InputWrapper>
-            <S.SelectContainer>
-              <ProductCategorySelector
-                value={values.categoryId}
-                onChange={(e): void => {
-                  setFieldValue('categoryId', +e.target.value);
-                }}
-              />
-            </S.SelectContainer>
 
-            <S.InputWrapper>
-              <S.InputField
-                id="size"
-                type="number"
-                variant="outlined"
-                label={t('product:product.size')}
-                fullWidth
-                size="small"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.size ?? ''}
-                error={!!(touched.size && errors.size)}
-                helperText={errors.size}
-              />
-              <ContentCopy value={`${values.size}`} />
-            </S.InputWrapper>
-
-            <ProductOwnerSelector
-              owner={values.ownerId}
-              onChange={(e): void => {
-                setFieldValue('ownerId', Number(e.target?.value));
+            <ProductSelectField
+              allowedNewValue
+              options={categories}
+              type={SelectTypeEnum.CATEGORY}
+              value={values.categoryId}
+              onChange={(value): void => {
+                setFieldValue('categoryId', Number(value));
               }}
-              style={{ width: '100%', marginBottom: '2rem' }}
+              onNewSelectValueSubmit={(value): void => {
+                createCategory(value);
+              }}
+              style={{ width: '100%' }}
             />
 
-            <ImagesFolderSelector
-              imagesFolder={values.imagesFolderId}
-              onChange={(e): void => {
-                setFieldValue('imagesFolderId', Number(e.target?.value));
+            <ProductSelectField
+              allowedNewValue
+              options={brands}
+              type={SelectTypeEnum.BRAND}
+              value={values.brandId}
+              onChange={(value): void => {
+                setFieldValue('brandId', Number(value));
               }}
-              style={{ width: '100%', marginBottom: '2rem' }}
+              onNewSelectValueSubmit={(value): void => {
+                createBrand(value);
+              }}
+              style={{ width: '100%' }}
+            />
+
+            <ProductSelectField
+              allowedNewValue
+              options={productOwners}
+              type={SelectTypeEnum.OWNER}
+              value={values.ownerId}
+              onChange={(value): void => {
+                setFieldValue('ownerId', Number(value));
+              }}
+              onNewSelectValueSubmit={(value): void => {
+                createProductOwner(value);
+              }}
+              style={{ width: '100%' }}
+            />
+
+            <ProductSelectField
+              allowedNewValue
+              options={imagesFolders}
+              type={SelectTypeEnum.IMAGES_FOLDER}
+              value={values.imagesFolderId}
+              onChange={(value): void => {
+                setFieldValue('imagesFolderId', Number(value));
+              }}
+              onNewSelectValueSubmit={(value): void => {
+                createImageFolder(value);
+              }}
+              style={{ width: '100%' }}
             />
 
             <input
@@ -256,6 +288,7 @@ export const ProductModal = ({ product, onClose }: ProductModalProps): JSX.Eleme
               value={inputValue}
               onChange={(e): void => {
                 let newFiles = e.target.files;
+
                 newFiles = newFiles
                   ? Object.assign(
                       {},

@@ -9,7 +9,7 @@ import { Login } from '../Modal/Login/Login';
 import { ProductModal } from '../Modal/ProductModal/ProductModal';
 import { ToastMessage } from '../ToastMessage/ToastMessage';
 import { Toolbar } from '../Toolbar/Toolbar';
-import { useUser } from '../commonHooks/useUser';
+import { useUser } from '../hooks/useUser';
 import * as S from './Header.styles';
 
 export const Header = (): JSX.Element => {

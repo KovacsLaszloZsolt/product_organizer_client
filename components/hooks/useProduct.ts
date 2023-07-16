@@ -1,6 +1,6 @@
-import { orderBy } from 'lodash';
+import { flatten } from 'lodash';
 import { useTranslation } from 'next-i18next';
-import { UseMutateFunction, useMutation, useQueryClient } from 'react-query';
+import { InfiniteData, UseMutateFunction, useMutation, useQueryClient } from 'react-query';
 import { useProductsStore } from '../../store/home';
 import { IntProduct } from '../../types/product';
 import { ToastMessageTypeEnum } from '../../types/toastMessage';
@@ -25,29 +25,41 @@ export const useProduct = ({ afterOnSuccess }: UseProductProps): IntUseProduct =
     mutationFn: async (fn: () => Promise<IntProduct>) => fn(),
 
     onSuccess: async (data) => {
-      queryClient.setQueryData(
+      queryClient.setQueryData<InfiniteData<IntProduct[]> | undefined>(
         ['products', filters, searchValue],
-        (oldData: IntProduct[] | undefined) => {
-          const existingProduct = oldData?.find((oldProduct) => oldProduct.id === data.id);
+        (oldData) => {
+          const existingProduct =
+            (flatten(oldData?.pages ?? []).find(
+              (oldProduct) => (oldProduct as IntProduct).id === data.id
+            ) as IntProduct) || undefined;
 
-          let products;
+          const products = (oldData?.pages ?? []).map((page, pageIndex) =>
+            (page as IntProduct[]).reduce((acc, curr, index) => {
+              if (existingProduct && pageIndex === 0 && index === 0) {
+                acc.push(existingProduct);
+              }
+
+              if (!existingProduct || curr.id !== existingProduct.id) {
+                acc.push(curr);
+              }
+
+              return acc;
+            }, [] as IntProduct[])
+          );
+
           if (existingProduct) {
-            products = (oldData ?? []).map((oldProduct: IntProduct) =>
-              oldProduct.id === data.id ? data : oldProduct
-            );
             setToastMessage({
               type: ToastMessageTypeEnum.SUCCESS,
               message: t('common:toast.updateProduct.success') ?? ''
             });
           } else {
-            products = [...(oldData ?? []), data];
             setToastMessage({
               type: ToastMessageTypeEnum.SUCCESS,
               message: t('common:toast.createProduct.success') ?? ''
             });
           }
 
-          return orderBy(products, ['updated_at'], ['desc']);
+          return { pages: products, pageParams: oldData?.pageParams ?? [] };
         }
       );
       afterOnSuccess && afterOnSuccess();
@@ -66,19 +78,23 @@ export const useProduct = ({ afterOnSuccess }: UseProductProps): IntUseProduct =
   const { mutate: mutateProductDelete, isLoading: isDeleteProductLoading } = useMutation({
     mutationFn: (deleteProduct: () => Promise<IntProduct>) => deleteProduct(),
     onSuccess: (data) => {
-      queryClient.setQueryData(['products', filters], (oldData: IntProduct[] | undefined) => {
-        if (!oldData) {
-          return [];
+      queryClient.setQueryData<InfiniteData<IntProduct[]> | undefined>(
+        ['products', filters, searchValue],
+        (oldData) => {
+          return {
+            pages:
+              oldData?.pages.map((page) => page?.filter((product) => product.id !== data.id)) ?? [],
+            pageParams: oldData?.pageParams ?? []
+          };
         }
-        return oldData?.filter((product) => product.id !== data.id);
-      });
+      );
 
       setToastMessage({
         type: ToastMessageTypeEnum.SUCCESS,
         message: t('common:toast.deleteProduct.success') ?? ''
       });
 
-      queryClient.invalidateQueries(['products', filters], { exact: true });
+      queryClient.invalidateQueries(['products', filters, searchValue], { exact: true });
     },
     onError: (_error) => {
       setToastMessage({
@@ -86,7 +102,7 @@ export const useProduct = ({ afterOnSuccess }: UseProductProps): IntUseProduct =
         message: t('common:toast.deleteProduct.error') ?? ''
       });
 
-      queryClient.invalidateQueries(['products', filters], { exact: true });
+      queryClient.invalidateQueries(['products', filters, searchValue], { exact: true });
     }
   });
 

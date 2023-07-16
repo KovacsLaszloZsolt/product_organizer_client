@@ -1,11 +1,11 @@
-export const getLocalStorageAuthToken = () => {
-  return typeof window !== 'undefined' ? localStorage.getItem('poAuthToken') : '';
+export const getLocalStorageAuthToken = (): string => {
+  return typeof window !== 'undefined' ? localStorage.getItem('poAuthToken') ?? '' : '';
 };
 
-export const setLocalStorageAuthToken = (token: string) => {
+export const setLocalStorageAuthToken = (token: string): void => {
   localStorage.setItem('poAuthToken', token);
 };
 
-export const deleteLocalStorageAuthToken = () => {
+export const deleteLocalStorageAuthToken = (): void => {
   localStorage.removeItem('poAuthToken');
 };

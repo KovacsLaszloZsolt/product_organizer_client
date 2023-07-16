@@ -23,24 +23,24 @@ import Breakpoints from './Breakpoints';
 // `;
 
 export const MainContentWrapper = styled.div<{ isToolbarOpen?: boolean }>`
-  margin: ${({ isToolbarOpen }) => `${isToolbarOpen ? '28rem' : '15rem'} auto 0 auto`};
+  margin: ${({ isToolbarOpen }): string => `${isToolbarOpen ? '28rem' : '15rem'} auto 0 auto`};
   width: 100%;
   max-width: calc(${Breakpoints.small} - 1rem);
 
   @media (min-width: ${Breakpoints.small}) {
-    margin-top: ${({ isToolbarOpen }) => (isToolbarOpen ? '18.5rem' : '15rem')};
+    margin-top: ${({ isToolbarOpen }): string => (isToolbarOpen ? '18.5rem' : '15rem')};
 
     max-width: calc(${Breakpoints.small} - 1rem);
   }
 
   @media (min-width: ${Breakpoints.medium}) {
-    margin-top: ${({ isToolbarOpen }) => (isToolbarOpen ? '18.5rem' : '15rem')};
+    margin-top: ${({ isToolbarOpen }): string => (isToolbarOpen ? '18.5rem' : '15rem')};
 
     max-width: calc(${Breakpoints.medium} - 1rem);
   }
 
   @media (min-width: ${Breakpoints.large}) {
-    margin-top: ${({ isToolbarOpen }) => (isToolbarOpen ? '18.5rem' : '15rem')};
+    margin-top: ${({ isToolbarOpen }): string => (isToolbarOpen ? '18.5rem' : '15rem')};
 
     max-width: calc(${Breakpoints.large} - 1rem);
   }

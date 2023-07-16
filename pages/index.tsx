@@ -10,12 +10,12 @@ import { MainContentWrapper } from '../styles/globalStyles';
 
 export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
   const queryClient = new QueryClient();
-  await queryClient.prefetchQuery(['products', {}, ''], () => getProducts({}, ''));
+  await queryClient.prefetchInfiniteQuery(['products', {}, 1], () => getProducts({}, '', 1));
 
   return {
     props: {
       ...(await serverSideTranslations(locale ?? 'hu', ['common', 'product'])),
-      dehydratedState: dehydrate(queryClient)
+      dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient)))
       // Will be passed to the page component as props
     }
   };

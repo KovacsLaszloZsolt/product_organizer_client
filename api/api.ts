@@ -1,6 +1,6 @@
 import axios, { AxiosRequestHeaders, InternalAxiosRequestConfig } from 'axios';
-import { getLocalStorageAuthToken } from 'utils/localStorageAuthToken';
 import config from '../config/config';
+import { getLocalStorageAuthToken } from '../utils/localStorageAuthToken';
 
 // export const queryClient = new QueryClient();
 

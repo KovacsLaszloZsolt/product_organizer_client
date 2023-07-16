@@ -2,7 +2,7 @@ import { ExpandLess, ExpandMore } from '@mui/icons-material';
 import { Avatar, Box, Button, Menu, MenuItem } from '@mui/material';
 import { useTranslation } from 'next-i18next';
 import { useMemo, useState } from 'react';
-import { useUser } from '../commonHooks/useUser';
+import { useUser } from '../hooks/useUser';
 
 export const UserMenu = (): JSX.Element => {
   const { t } = useTranslation('common');

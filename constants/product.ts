@@ -1,4 +1,4 @@
-import { StatusEnum, StatusType } from 'types/product';
+import { StatusEnum, StatusType } from '../types/product';
 
 export const availableProductStatuses: StatusType[] = [
   StatusEnum.AVAILABLE,

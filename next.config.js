@@ -13,15 +13,6 @@ const nextConfig = {
   transpilePackages: ['@mui/material', '@mui/icons-material'],
   reactStrictMode: true,
   images: {
-    // remotePatterns: [
-    //   {
-    //     protocol: 'http',
-    //     hostname: 'res.cloudinary.com',
-    //     port: '',
-    //     pathname: ''
-    //   }
-    // ]
-
     domains: ['res.cloudinary.com']
   },
   i18n

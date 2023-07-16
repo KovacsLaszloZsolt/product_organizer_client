@@ -1,9 +1,11 @@
+import Compressor from 'compressorjs';
 import { forEach, isEmpty, isNil } from 'lodash';
 import { FilterType, IntFilters } from '../types/common';
 import {
   IntDeletedImage,
   IntImagesFolder,
   IntProduct,
+  IntProductBrand,
   IntProductCategory,
   IntProductOwner
 } from '../types/product';
@@ -11,8 +13,9 @@ import { api, unprotectedApi } from './api';
 
 export const getProducts = async (
   filters?: IntFilters,
-  searchValue?: string
-): Promise<IntProduct[] | undefined> => {
+  searchValue?: string,
+  page?: number
+): Promise<IntProduct[]> => {
   const params = Object.keys(filters ?? {}).reduce((acc, key) => {
     const _key = key as FilterType;
     const value = filters?.[_key];
@@ -22,15 +25,16 @@ export const getProducts = async (
     }
     acc[_key] = value.join(',');
     return acc;
-  }, {} as Partial<Record<FilterType | 'search', string>>);
+  }, {} as Partial<Record<FilterType | 'search' | 'page', string | number>>);
 
   if (searchValue) {
     params.search = searchValue;
   }
 
-  const { data } = await unprotectedApi.get('/api/product', { params });
+  params.page = page;
 
-  console.log({ data });
+  const { data } = await unprotectedApi.get<IntProduct[]>('/api/product', { params });
+
   return data;
 };
 
@@ -93,9 +97,27 @@ export const patchProduct = async ({
   });
 
   if (!isNil(files) && !isEmpty(files)) {
-    Object.values(files).forEach((file) => {
-      formData.append('files', file);
+    const promises: Promise<Blob>[] = [];
+
+    Object.values(files).forEach(async (file) => {
+      promises.push(
+        new Promise((resolve, reject) => {
+          new Compressor(file, {
+            quality: 0.6,
+            success(result): void {
+              resolve(result);
+            },
+            error(e): void {
+              reject(e);
+            }
+          });
+        })
+      );
     });
+
+    const result = await Promise.all(promises);
+    console.log(result);
+    result.forEach((file) => formData.append('files', file));
   }
 
   if (!isNil(deletedImages)) {
@@ -108,6 +130,16 @@ export const patchProduct = async ({
     }
   });
 
+  return data;
+};
+
+export const fetchBrands = async (): Promise<IntProductBrand[]> => {
+  const { data } = await api.get(`/api/brand`);
+  return data;
+};
+
+export const createProductBrand = async (name: string): Promise<IntProductBrand> => {
+  const { data } = await api.post(`/api/brand`, { name });
   return data;
 };
 

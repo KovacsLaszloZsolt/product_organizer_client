@@ -1,14 +1,15 @@
 {
   "product": {
+    "brand": "Márka",
     "category": "Kategória",
     "create": "Új termék létrehozása",
     "description": "Leírás",
     "edit": "Termék módosítása",
+    "imagesFolder": "Kép mappa",
     "name": "Név",
     "owner": "Tulajdonos",
     "price": "Ár",
     "size": "Méret",
-    "imagesFolder": "Kép mappa",
     "status": "Státusz"
   },
   "createNew": "Új {{name}} hozzáadás",
@@ -17,5 +18,6 @@
       "title": "Termék törlés",
       "description": "Biztos hogy törlöd a {{productName}} terméket?"
     }
-  }
+  },
+  "emptyList": "Nincs ilyen termék"
 }

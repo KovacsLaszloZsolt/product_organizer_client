@@ -5,7 +5,7 @@ import { fetchImagesFolders, postImageFolder } from '../../api/product';
 import { useProductsStore } from '../../store/home';
 import { IntImagesFolder } from '../../types/product';
 import { ToastMessageTypeEnum } from '../../types/toastMessage';
-import { useUser } from '../commonHooks/useUser';
+import { useUser } from '../hooks/useUser';
 
 interface UseImagesFolderSelector {
   imagesFolders: IntImagesFolder[] | undefined;

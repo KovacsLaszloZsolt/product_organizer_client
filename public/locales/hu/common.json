@@ -46,6 +46,9 @@
     "fetchCategories": {
       "error": "Hiba történt a kategóriák lekérése közben"
     },
+    "fetchBrands": {
+      "error": "Hiba történt a márkák lekérése közben"
+    },
     "fetchProducts": {
       "error": "Hiba történt a termékek lekérése közben"
     },
@@ -59,6 +62,10 @@
     "updateProduct": {
       "error": "Hiba történt termék frissítése közben",
       "success": "Termék sikeresen frissítve"
+    },
+    "createBrand": {
+      "error": "Hiba történt márka létrehozás közben",
+      "success": "Márka sikeresen létrehozva"
     },
     "createCategory": {
       "error": "Hiba történt kategória létrehozás közben",

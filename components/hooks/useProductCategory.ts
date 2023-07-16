@@ -3,13 +3,13 @@ import { useTranslation } from 'next-i18next';
 import { UseMutateFunction, useMutation, useQuery, useQueryClient } from 'react-query';
 import { createProductCategory, fetchCategories } from '../../api/product';
 import { useProductsStore } from '../../store/home';
-import { IntProductCategory } from '../../types/product';
+import { ProductSelectFieldOptions } from '../../types/product';
 import { ToastMessageTypeEnum } from '../../types/toastMessage';
-import { useUser } from '../commonHooks/useUser';
+import { useUser } from './useUser';
 
 interface UseProductCategory {
-  categories: IntProductCategory[] | undefined;
-  createCategoryMutation: UseMutateFunction<IntProductCategory, unknown, string, unknown>;
+  categories: ProductSelectFieldOptions[] | undefined;
+  createCategory: UseMutateFunction<ProductSelectFieldOptions, unknown, string, unknown>;
 }
 
 export const useProductCategory = (): UseProductCategory => {
@@ -18,7 +18,7 @@ export const useProductCategory = (): UseProductCategory => {
   const { user } = useUser();
   const { setToastMessage } = useProductsStore();
 
-  const { data: categories }: { data: IntProductCategory[] | undefined } = useQuery({
+  const { data: categories }: { data: ProductSelectFieldOptions[] | undefined } = useQuery({
     queryKey: 'categories',
     queryFn: fetchCategories,
     staleTime: 1000 * 60 * 15,
@@ -31,10 +31,10 @@ export const useProductCategory = (): UseProductCategory => {
     }
   });
 
-  const { mutate: createCategoryMutation } = useMutation({
+  const { mutate: createCategory } = useMutation({
     mutationFn: (newCategory: string) => createProductCategory(newCategory),
     onSuccess: async (data) => {
-      queryClient.setQueryData('categories', (oldData: IntProductCategory[] | undefined) => {
+      queryClient.setQueryData('categories', (oldData: ProductSelectFieldOptions[] | undefined) => {
         return sortBy([...(oldData ?? []), data], 'name');
       });
       await queryClient.invalidateQueries(['categories'], {
@@ -53,5 +53,5 @@ export const useProductCategory = (): UseProductCategory => {
     }
   });
 
-  return { categories, createCategoryMutation };
+  return { categories, createCategory };
 };

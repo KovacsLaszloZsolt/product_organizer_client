@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-default-export
 export default Object.freeze({
   env: process.env.NEXT_PUBLIC_NODE_ENV || 'development',
   isDevelopment: process.env.NEXT_PUBLIC_NODE_ENV === 'development',

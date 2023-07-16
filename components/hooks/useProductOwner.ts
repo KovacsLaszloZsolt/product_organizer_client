@@ -5,7 +5,7 @@ import { createProductOwner as createPoOwner, fetchProductOwners } from '../../a
 import { useProductsStore } from '../../store/home';
 import { IntProductOwner } from '../../types/product';
 import { ToastMessageTypeEnum } from '../../types/toastMessage';
-import { useUser } from '../commonHooks/useUser';
+import { useUser } from './useUser';
 
 interface UseProductOwner {
   productOwners: IntProductOwner[] | undefined;

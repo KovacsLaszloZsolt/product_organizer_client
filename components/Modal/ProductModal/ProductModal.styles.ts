@@ -16,7 +16,7 @@ export const InputField = styled(TextField)`
   margin-bottom: ${({ error }): string => (error ? '0.50625rem' : '2rem')};
 `;
 
-export const InputWrapper = styled.span`
+export const InputWrapper = styled.span<{ hasBottomMargin?: boolean }>`
   width: inherit;
   display: flex;
   align-items: flex-start;

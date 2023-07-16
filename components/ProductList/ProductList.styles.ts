@@ -4,6 +4,5 @@ import Colors from '../../styles/Colors';
 
 export const ListWrapper = styled(Stack)`
   border: 1px solid ${Colors.border};
+  margin-bottom: 1rem;
 `;
-
-export const List = styled.div``;

@@ -1,6 +1,6 @@
-import { IntFilters } from 'types/common';
-import { IntToastMessage } from 'types/toastMessage';
 import { create } from 'zustand';
+import { IntFilters } from '../types/common';
+import { IntToastMessage } from '../types/toastMessage';
 
 interface ProductsState {
   toastMessage: null | IntToastMessage;
@@ -23,7 +23,7 @@ export const useProductsStore = create<ProductsState>((set) => ({
     set({ filters });
   },
   searchValue: '',
-  setSearchValue: (searchValue) => set({ searchValue }),
+  setSearchValue: (searchValue): void => set({ searchValue }),
   isToolbarOpen: false,
-  setIsToolbarOpen: (isToolbarOpen) => set({ isToolbarOpen })
+  setIsToolbarOpen: (isToolbarOpen): void => set({ isToolbarOpen })
 }));

@@ -1,17 +1,24 @@
 import { Delete, Edit } from '@mui/icons-material';
-import { IconButton, SelectChangeEvent, Tooltip, Typography } from '@mui/material';
+import { IconButton, Tooltip, Typography } from '@mui/material';
 
 import { useTranslation } from 'next-i18next';
 import { useMemo, useState } from 'react';
 import { patchProduct } from '../../api/product';
+import { availableProductStatuses } from '../../constants/product';
 import { RoleEnum } from '../../types/auth';
-import { IntProduct, StatusColorEnum, StatusType } from '../../types/product';
+import {
+  IntProduct,
+  SelectTypeEnum,
+  StatusColorEnum,
+  StatusEnum,
+  StatusType
+} from '../../types/product';
 import { ImageViewer } from '../ImageViewer/ImageViewer';
 import { DeleteProductModal } from '../Modal/DeleteProductModal/DeleteProductModal';
 import { ProductModal } from '../Modal/ProductModal/ProductModal';
-import { ProductStatusSelector } from '../ProductStatusSelector/ProductStatusSelector';
-import { useProduct } from '../commonHooks/useProduct';
-import { useUser } from '../commonHooks/useUser';
+import { ProductSelectField } from '../ProductSelectField/ProductSelectField';
+import { useProduct } from '../hooks/useProduct';
+import { useUser } from '../hooks/useUser';
 import * as S from './ProductListItem.styles';
 
 interface ProductListItemProps {
@@ -27,9 +34,7 @@ export const ProductListItem = ({ product }: ProductListItemProps): JSX.Element 
   const { mutateProduct } = useProduct({});
   const isAdmin = useMemo(() => user?.role === RoleEnum.ADMIN, [user]);
 
-  const handleProductStatusChange = async (e: SelectChangeEvent): Promise<void> => {
-    const status = e.target.value as StatusType;
-
+  const handleProductStatusChange = async (status: StatusType): Promise<void> => {
     mutateProduct(() => patchProduct({ updateProduct: { status }, id: product.id }));
   };
 
@@ -94,9 +99,16 @@ export const ProductListItem = ({ product }: ProductListItemProps): JSX.Element 
               </Typography>
             )}
             {isAdmin && (
-              <ProductStatusSelector
-                status={product.status}
-                onChange={handleProductStatusChange}
+              <ProductSelectField
+                options={availableProductStatuses.map((status) => ({ id: status, name: status }))}
+                type={SelectTypeEnum.STATUS}
+                value={product.status}
+                defaultValue={StatusEnum.AVAILABLE}
+                onChange={(value): void => {
+                  const status = value as StatusType;
+                  handleProductStatusChange(status);
+                }}
+                isOnModal={false}
                 style={{ width: '7rem', marginLeft: '1rem' }}
               />
             )}

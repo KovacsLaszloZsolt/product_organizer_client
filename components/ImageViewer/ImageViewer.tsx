@@ -3,8 +3,8 @@ import Image from 'next/image';
 import { useMemo } from 'react';
 import ImageGallery from 'react-image-gallery';
 import 'react-image-gallery/styles/css/image-gallery.css';
-import * as S from './ImageViewer.style';
 import { IntImage } from '../../types/product';
+import * as S from './ImageViewer.style';
 
 interface ImageViewerProps {
   images: IntImage[] | undefined;
@@ -23,7 +23,15 @@ export const ImageViewer = ({ images }: ImageViewerProps): JSX.Element => {
   );
 
   if (isEmpty(galleryImages)) {
-    return <Image src={'/images/noImage.png'} width={225} height={225} alt="" />;
+    return (
+      <Image
+        src={'/images/noImage.png'}
+        width={225}
+        height={225}
+        alt=""
+        style={{ margin: '0 auto' }}
+      />
+    );
   }
 
   return (

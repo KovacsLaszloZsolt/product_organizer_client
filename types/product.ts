@@ -5,7 +5,7 @@ export interface IntProduct {
   name: string;
   description: string | null;
   price: number | null;
-  size: number | null;
+  brandId: number | null;
   ownerId: number | null;
   categoryId: number | null;
   deleted_at: Date;
@@ -51,6 +51,16 @@ export enum ImageTypeEnum {
 
 export type ImageType = ImageTypeEnum.NEW | ImageTypeEnum.OLD;
 
+export interface ProductSelectFieldOptions {
+  id: number | StatusType;
+  name: string;
+}
+
+export interface IntProductBrand {
+  id: number;
+  name: string;
+}
+
 export interface IntProductCategory {
   id: number;
   name: string;
@@ -65,3 +75,18 @@ export interface IntImagesFolder {
   id: number;
   name: string;
 }
+
+export enum SelectTypeEnum {
+  BRAND = 'brand',
+  CATEGORY = 'category',
+  IMAGES_FOLDER = 'imagesFolder',
+  OWNER = 'owner',
+  STATUS = 'status'
+}
+
+export type SelectType =
+  | SelectTypeEnum.BRAND
+  | SelectTypeEnum.CATEGORY
+  | SelectTypeEnum.IMAGES_FOLDER
+  | SelectTypeEnum.OWNER
+  | SelectTypeEnum.STATUS;

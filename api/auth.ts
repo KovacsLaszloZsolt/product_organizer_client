@@ -1,4 +1,4 @@
-import { IntUser, IntUserLoginData } from 'types/auth';
+import { IntUser, IntUserLoginData } from '../types/auth';
 import { unprotectedApi } from './api';
 
 export const signIn = async (userData: IntUserLoginData): Promise<IntUser> => {

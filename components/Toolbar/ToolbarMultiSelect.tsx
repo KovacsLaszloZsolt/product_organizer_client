@@ -9,7 +9,7 @@ import {
 } from '@mui/material';
 import { useTranslation } from 'next-i18next';
 import { ReactNode, useMemo } from 'react';
-import { IntProductCategory, IntProductOwner, StatusType } from '../../types/product';
+import { ProductSelectFieldOptions, StatusType } from '../../types/product';
 
 interface StatusSelectOptions {
   id: StatusType;
@@ -17,7 +17,7 @@ interface StatusSelectOptions {
 }
 
 interface ToolbarMultiSelectProps {
-  options: (IntProductOwner | IntProductCategory | StatusSelectOptions)[];
+  options: (ProductSelectFieldOptions | StatusSelectOptions)[];
   type: string;
   values: (number | StatusType)[];
   valuesKey: string;
