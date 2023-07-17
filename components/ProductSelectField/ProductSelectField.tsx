@@ -1,5 +1,7 @@
 import { CSSObject, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
+import { isEmpty, sortBy } from 'lodash';
 import { useTranslation } from 'next-i18next';
+import { useMemo } from 'react';
 import { ProductSelectFieldOptions, SelectType, SelectTypeEnum } from '../../types/product';
 import { ContentCopy } from '../ContentCopy/ContentCopy';
 import { AddNewSelectValueModal } from '../Modal/AddNewSelectValueModal/AddNewSelectValueModal';
@@ -33,6 +35,10 @@ export const ProductSelectField = ({
 }: ProductSelectFieldProps): JSX.Element => {
   const { t } = useTranslation(['product', 'common']);
 
+  const orderedOptions = useMemo(() => {
+    return sortBy(options, (option) => option.name.toLowerCase());
+  }, [options]);
+
   return (
     <S.ProductSelectFieldWrapper isOnModal={isOnModal}>
       <InputWrapper>
@@ -48,8 +54,8 @@ export const ProductSelectField = ({
             }}
             MenuProps={{ disableScrollLock: true }}
           >
-            {options &&
-              options.map((option) => {
+            {!isEmpty(orderedOptions) &&
+              orderedOptions.map((option) => {
                 return (
                   <MenuItem key={option.id} value={option.id}>
                     {type === SelectTypeEnum.STATUS

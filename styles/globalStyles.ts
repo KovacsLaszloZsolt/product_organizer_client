@@ -23,18 +23,18 @@ import Breakpoints from './Breakpoints';
 // `;
 
 export const MainContentWrapper = styled.div<{ isToolbarOpen?: boolean }>`
-  margin: ${({ isToolbarOpen }): string => `${isToolbarOpen ? '28rem' : '15rem'} auto 0 auto`};
+  margin: ${({ isToolbarOpen }): string => `${isToolbarOpen ? '32rem' : '15rem'} auto 0 auto`};
   width: 100%;
   max-width: calc(${Breakpoints.small} - 1rem);
 
   @media (min-width: ${Breakpoints.small}) {
-    margin-top: ${({ isToolbarOpen }): string => (isToolbarOpen ? '18.5rem' : '15rem')};
+    margin-top: ${({ isToolbarOpen }): string => (isToolbarOpen ? '23rem' : '15rem')};
 
     max-width: calc(${Breakpoints.small} - 1rem);
   }
 
   @media (min-width: ${Breakpoints.medium}) {
-    margin-top: ${({ isToolbarOpen }): string => (isToolbarOpen ? '18.5rem' : '15rem')};
+    margin-top: ${({ isToolbarOpen }): string => (isToolbarOpen ? '23rem' : '15rem')};
 
     max-width: calc(${Breakpoints.medium} - 1rem);
   }
@@ -46,7 +46,7 @@ export const MainContentWrapper = styled.div<{ isToolbarOpen?: boolean }>`
   }
 
   @media (min-width: ${Breakpoints.extraLarge}) {
-    margin-top: 15rem;
-    max-width: ${Breakpoints.extraLarge};
+    margin-top: ${({ isToolbarOpen }): string => (isToolbarOpen ? '18.5rem' : '15rem')};
+    max-width: calc(${Breakpoints.extraLarge} - 1rem);
   }
 `;

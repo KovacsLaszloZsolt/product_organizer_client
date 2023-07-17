@@ -31,6 +31,7 @@ import { useProductBrand } from '../../hooks/useProductBrand';
 import { useProductCategory } from '../../hooks/useProductCategory';
 import { useProductOwner } from '../../hooks/useProductOwner';
 import * as S from './ProductModal.styles';
+import { modalOnCloseHandler } from '../../../utils/modalOnCloseHandler';
 
 interface ProductModalProps {
   product?: IntProduct | null;
@@ -156,7 +157,13 @@ export const ProductModal = ({ product, onClose }: ProductModalProps): JSX.Eleme
 
   return (
     <div>
-      <Dialog open={true} onClose={onClose} disableScrollLock fullWidth maxWidth="md">
+      <Dialog
+        open={true}
+        onClose={(e: Event, reason: string): void => modalOnCloseHandler(e, reason, onClose)}
+        disableScrollLock
+        fullWidth
+        maxWidth="md"
+      >
         <DialogTitle>{t(`product:product.${product ? 'edit' : 'create'}`)}</DialogTitle>
         <DialogContent>
           <S.Form noValidate>
@@ -219,6 +226,7 @@ export const ProductModal = ({ product, onClose }: ProductModalProps): JSX.Eleme
                 value={values.price ?? ''}
                 error={!!(touched.price && errors.price)}
                 helperText={errors.price}
+                onWheel={(e): void => (e.target as HTMLInputElement).blur()}
               />
               <ContentCopy value={`${values.price}`} />
             </S.InputWrapper>

@@ -116,7 +116,6 @@ export const patchProduct = async ({
     });
 
     const result = await Promise.all(promises);
-    console.log(result);
     result.forEach((file) => formData.append('files', file));
   }
 

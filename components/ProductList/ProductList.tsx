@@ -1,4 +1,4 @@
-import { Box, Divider } from '@mui/material';
+import { Backdrop, Box, CircularProgress, Divider } from '@mui/material';
 import { flatten, isEmpty } from 'lodash';
 import { useTranslation } from 'next-i18next';
 import { Fragment, useEffect, useMemo, useRef } from 'react';
@@ -9,7 +9,7 @@ import * as S from './ProductList.styles';
 
 export const ProductList = (): JSX.Element => {
   const { t } = useTranslation('product');
-  const { data, hasNextPage, fetchNextPage } = useProducts();
+  const { data, hasNextPage, isFetching, fetchNextPage } = useProducts();
   const thirdToLastItemRef = useRef<HTMLSpanElement | null>(null);
 
   const products = useMemo(() => {
@@ -39,7 +39,14 @@ export const ProductList = (): JSX.Element => {
 
   return (
     <>
-      {!isEmpty(data) ? (
+      <Backdrop
+        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={isFetching}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
+
+      {!isEmpty(products) ? (
         <S.ListWrapper spacing={2} pt="1rem">
           {products.map((product: IntProduct, index: number) => {
             return (

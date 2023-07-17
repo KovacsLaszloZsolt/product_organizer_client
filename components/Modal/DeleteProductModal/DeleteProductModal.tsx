@@ -2,6 +2,7 @@ import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/
 import { useTranslation } from 'next-i18next';
 import { deleteProduct } from '../../../api/product';
 import { useProduct } from '../../hooks/useProduct';
+import { modalOnCloseHandler } from '../../../utils/modalOnCloseHandler';
 
 interface IntDeleteProductModalProps {
   productId: number;
@@ -23,7 +24,13 @@ export const DeleteProductModal = ({
 
   return (
     <div>
-      <Dialog open onClose={onClose} disableScrollLock fullWidth maxWidth="md">
+      <Dialog
+        open
+        onClose={(e: Event, reason: string): void => modalOnCloseHandler(e, reason, onClose)}
+        disableScrollLock
+        fullWidth
+        maxWidth="md"
+      >
         <DialogTitle>{t(`product:modal.deleteProduct.title`)}</DialogTitle>
         <DialogContent>
           {t(`product:modal.deleteProduct.description`, { productName })}

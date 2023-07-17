@@ -14,6 +14,7 @@ import { ToastMessageTypeEnum } from '../../types/toastMessage';
 interface UseProducts {
   data: InfiniteData<IntProduct[]> | undefined;
   hasNextPage?: boolean;
+  isFetching: boolean;
   fetchNextPage: (
     options?: FetchNextPageOptions | undefined
   ) => Promise<InfiniteQueryObserverResult<unknown, unknown>>;
@@ -22,7 +23,7 @@ interface UseProducts {
 export const useProducts = (): UseProducts => {
   const { searchValue, filters, setToastMessage } = useProductsStore();
 
-  const { data, hasNextPage, fetchNextPage } = useInfiniteQuery<IntProduct[], Error>({
+  const { data, hasNextPage, isFetching, fetchNextPage } = useInfiniteQuery<IntProduct[], Error>({
     queryKey: ['products', filters, searchValue],
     getNextPageParam: (lastPage, allPages) => {
       if (isEmpty(lastPage)) return undefined;
@@ -41,5 +42,5 @@ export const useProducts = (): UseProducts => {
     }
   });
 
-  return { data, hasNextPage, fetchNextPage };
+  return { data, hasNextPage, isFetching, fetchNextPage };
 };

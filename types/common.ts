@@ -7,17 +7,24 @@ export enum LoadableState {
 }
 
 export interface IntFilters {
-  [FilterEnum.OWNER_ID]?: number[];
+  [FilterEnum.BRAND_ID]?: number[];
   [FilterEnum.CATEGORY_ID]?: number[];
-  [FilterEnum.STATUS]?: StatusType[];
   [FilterEnum.IMAGE_FOLDER]?: number[];
+  [FilterEnum.OWNER_ID]?: number[];
+  [FilterEnum.STATUS]?: StatusType[];
 }
 
 export enum FilterEnum {
-  OWNER_ID = 'ownerId',
+  BRAND_ID = 'brandId',
   CATEGORY_ID = 'categoryId',
-  STATUS = 'status',
-  IMAGE_FOLDER = 'imagesFolderId'
+  IMAGE_FOLDER = 'imagesFolderId',
+  OWNER_ID = 'ownerId',
+  STATUS = 'status'
 }
 
-export type FilterType = FilterEnum.OWNER_ID | FilterEnum.CATEGORY_ID | FilterEnum.STATUS;
+export type FilterType =
+  | FilterEnum.BRAND_ID
+  | FilterEnum.CATEGORY_ID
+  | FilterEnum.IMAGE_FOLDER
+  | FilterEnum.OWNER_ID
+  | FilterEnum.STATUS;

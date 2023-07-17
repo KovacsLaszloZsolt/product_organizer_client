@@ -11,9 +11,22 @@ export const Form = styled.form`
   margin-bottom: 0.5rem;
 `;
 
-export const InputField = styled(TextField)`
+export const InputField = styled(TextField)<{ type?: string }>`
   width: inherit;
   margin-bottom: ${({ error }): string => (error ? '0.50625rem' : '2rem')};
+
+  /* Chrome, Safari, Edge, Opera */
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  /* Firefox */
+  input[type='number'] {
+    -moz-appearance: textfield;
+    appearance: textfield;
+  }
 `;
 
 export const InputWrapper = styled.span<{ hasBottomMargin?: boolean }>`

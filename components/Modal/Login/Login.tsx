@@ -15,6 +15,7 @@ import { MouseEvent, useState } from 'react';
 import * as Yup from 'yup';
 import * as S from './Login.styles';
 import { useLogin } from './useLogin';
+import { modalOnCloseHandler } from '../../../utils/modalOnCloseHandler';
 
 export const Login = (): JSX.Element => {
   const { t } = useTranslation();
@@ -59,9 +60,9 @@ export const Login = (): JSX.Element => {
       </Button>
       <Dialog
         open={isOpen}
-        onClose={(): void => {
-          setIsOpen(false);
-        }}
+        onClose={(e: Event, reason: string): void =>
+          modalOnCloseHandler(e, reason, () => setIsOpen(false))
+        }
         disableScrollLock
       >
         {error && <Alert severity="error">{error}</Alert>}

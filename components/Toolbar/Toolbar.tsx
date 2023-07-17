@@ -10,6 +10,7 @@ import { useProductsStore } from '../../store/home';
 import { RoleEnum } from '../../types/auth';
 import { StatusEnum, StatusType } from '../../types/product';
 import { useImagesFolderSelector } from '../ImagesFolderSelector/useImagesFolderSelector';
+import { useProductBrand } from '../hooks/useProductBrand';
 import { useProductCategory } from '../hooks/useProductCategory';
 import { useProductOwner } from '../hooks/useProductOwner';
 import { useUser } from '../hooks/useUser';
@@ -28,15 +29,17 @@ export const Toolbar = (): JSX.Element => {
   const { productOwners } = useProductOwner();
   const { categories } = useProductCategory();
   const { imagesFolders } = useImagesFolderSelector();
+  const { brands } = useProductBrand();
   const { user } = useUser();
   const { filters, setFilters, isToolbarOpen, setIsToolbarOpen } = useProductsStore();
 
   const { values, resetForm, setFieldValue } = useFormik({
     initialValues: {
-      ownerId: filters?.ownerId ?? [],
+      brandId: filters?.brandId ?? [],
       categoryId: filters?.categoryId ?? [],
-      status: filters?.status ?? [],
-      imagesFolderId: filters?.imagesFolderId ?? []
+      imagesFolderId: filters?.imagesFolderId ?? [],
+      ownerId: filters?.ownerId ?? [],
+      status: filters?.status ?? []
     },
     onSubmit: (_values) => {}
   });
@@ -61,11 +64,18 @@ export const Toolbar = (): JSX.Element => {
   const selectOptions = useMemo(() => {
     return [
       {
+        options: brands,
+        type: 'brand',
+        values: values.brandId,
+        valuesKey: 'brandId',
+        role: RoleEnum.ADMIN
+      },
+      {
         options: productOwners,
         type: 'owner',
         values: values.ownerId,
         valuesKey: 'ownerId',
-        role: RoleEnum.ADMIN
+        role: RoleEnum.BASIC
       },
       {
         options: categories,
@@ -93,7 +103,7 @@ export const Toolbar = (): JSX.Element => {
         role: RoleEnum.ADMIN
       }
     ];
-  }, [productOwners, values, imagesFolders, categories]);
+  }, [productOwners, values, imagesFolders, categories, brands]);
 
   return (
     <S.Toolbar>

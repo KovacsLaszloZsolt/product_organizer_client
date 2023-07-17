@@ -1,6 +1,6 @@
 import { CacheProvider, EmotionCache } from '@emotion/react';
 import CssBaseline from '@mui/material/CssBaseline';
-import { appWithTranslation } from 'next-i18next';
+import { appWithTranslation, useTranslation } from 'next-i18next';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import { useEffect, useState } from 'react';
@@ -19,6 +19,7 @@ interface MyAppProps extends AppProps {
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 function App({ Component, pageProps, emotionCache = clientSideEmotionCache }: MyAppProps) {
+  const { t } = useTranslation('common');
   const [queryClient] = useState(() => new QueryClient());
 
   useEffect(() => {
@@ -34,7 +35,7 @@ function App({ Component, pageProps, emotionCache = clientSideEmotionCache }: My
       <Hydrate state={pageProps.dehydratedState}>
         <CacheProvider value={emotionCache}>
           <Head>
-            <title>Next App</title>
+            <title>{t('pageTitle')}</title>
             <meta content="minimum-scale=1, initial-scale=1, width=device-width" name="viewport" />
           </Head>
           <div id="root">

@@ -7,6 +7,7 @@ import {
   SelectChangeEvent,
   Typography
 } from '@mui/material';
+import { sortBy } from 'lodash';
 import { useTranslation } from 'next-i18next';
 import { ReactNode, useMemo } from 'react';
 import { ProductSelectFieldOptions, StatusType } from '../../types/product';
@@ -34,14 +35,21 @@ export const ToolbarMultiSelect = ({
   const { t } = useTranslation('product');
 
   const renderValues = useMemo(() => {
-    return options?.reduce((prev, curr) => {
-      if (values.includes(curr.id)) {
-        prev.push(curr.name);
-      }
+    return sortBy(
+      options?.reduce((prev, curr) => {
+        if (values.includes(curr.id)) {
+          prev.push(curr.name);
+        }
 
-      return prev;
-    }, [] as string[]);
+        return prev;
+      }, [] as string[]),
+      (option) => option.toLowerCase()
+    );
   }, [values, options]);
+
+  const orderedOptions = useMemo(() => {
+    return sortBy(options, (option) => option.name.toLowerCase());
+  }, [options]);
 
   return (
     <FormControl sx={{ width: 200 }}>
@@ -73,7 +81,7 @@ export const ToolbarMultiSelect = ({
         }}
         MenuProps={{ disableScrollLock: true }}
       >
-        {options?.map((option) => (
+        {orderedOptions?.map((option) => (
           <MenuItem key={option.id} value={option.id} style={{ width: 200 }}>
             <Checkbox checked={values.indexOf(option.id) > -1} />
             <Typography noWrap>{option.name}</Typography>
