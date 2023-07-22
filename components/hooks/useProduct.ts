@@ -24,7 +24,7 @@ export const useProduct = ({ afterOnSuccess }: UseProductProps): IntUseProduct =
   const { mutate: mutateProduct, isLoading: isMutateProductLoading } = useMutation({
     mutationFn: async (fn: () => Promise<IntProduct>) => fn(),
 
-    onSuccess: async (data) => {
+    onSuccess: (data) => {
       queryClient.setQueryData<InfiniteData<IntProduct[]> | undefined>(
         ['products', filters, searchValue],
         (oldData) => {
@@ -63,7 +63,8 @@ export const useProduct = ({ afterOnSuccess }: UseProductProps): IntUseProduct =
         }
       );
       afterOnSuccess && afterOnSuccess();
-      await queryClient.invalidateQueries(['products', filters, searchValue], { exact: true });
+      queryClient.invalidateQueries(['products', filters, searchValue], { exact: true });
+      queryClient.invalidateQueries(['productsCount']);
     },
 
     onError: async (_error) => {
@@ -95,6 +96,7 @@ export const useProduct = ({ afterOnSuccess }: UseProductProps): IntUseProduct =
       });
 
       queryClient.invalidateQueries(['products', filters, searchValue], { exact: true });
+      queryClient.invalidateQueries(['productsCount']);
     },
     onError: (_error) => {
       setToastMessage({
