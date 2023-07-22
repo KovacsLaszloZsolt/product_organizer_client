@@ -19,5 +19,7 @@
       "description": "Biztos hogy törlöd a {{productName}} terméket?"
     }
   },
-  "emptyList": "Nincs ilyen termék"
+  "emptyList": "Nincs ilyen termék",
+  "numberOfProducts": "{{productsCount}} termék",
+  "no": "Nincs {{option}}"
 }

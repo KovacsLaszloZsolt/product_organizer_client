@@ -68,21 +68,24 @@ export const Toolbar = (): JSX.Element => {
         type: 'brand',
         values: values.brandId,
         valuesKey: 'brandId',
-        role: RoleEnum.ADMIN
+        role: RoleEnum.BASIC,
+        withNullValue: true
       },
       {
         options: productOwners,
         type: 'owner',
         values: values.ownerId,
         valuesKey: 'ownerId',
-        role: RoleEnum.BASIC
+        role: RoleEnum.ADMIN,
+        withNullValue: true
       },
       {
         options: categories,
         type: 'category',
         values: values.categoryId,
         valuesKey: 'categoryId',
-        role: RoleEnum.ADMIN
+        role: RoleEnum.BASIC,
+        withNullValue: true
       },
       {
         options: [
@@ -93,14 +96,16 @@ export const Toolbar = (): JSX.Element => {
         type: 'status',
         values: values.status,
         valuesKey: 'status',
-        role: RoleEnum.BASIC
+        role: RoleEnum.BASIC,
+        withNullValue: false
       },
       {
         options: imagesFolders,
         type: 'imagesFolder',
         values: values.imagesFolderId,
         valuesKey: 'imagesFolderId',
-        role: RoleEnum.ADMIN
+        role: RoleEnum.ADMIN,
+        withNullValue: true
       }
     ];
   }, [productOwners, values, imagesFolders, categories, brands]);
@@ -121,6 +126,7 @@ export const Toolbar = (): JSX.Element => {
                 type={option.type}
                 values={option.values}
                 valuesKey={option.valuesKey}
+                withNullValue={option.withNullValue}
                 handleChange={handleChange}
               />
             );

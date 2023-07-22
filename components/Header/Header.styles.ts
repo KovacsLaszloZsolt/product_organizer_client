@@ -45,9 +45,13 @@ export const PageTitle = styled.div`
 `;
 
 export const ActionContainer = styled(BaseElement)`
-  justify-content: flex-end;
-  gap: 1rem;
-  height: 40px;
+  justify-content: space-between;
+
+  & > span {
+    display: flex;
+    gap: 1rem;
+    height: 40px;
+  }
 
   @media (max-width: ${Breakpoints.medium}) {
     justify-content: center;

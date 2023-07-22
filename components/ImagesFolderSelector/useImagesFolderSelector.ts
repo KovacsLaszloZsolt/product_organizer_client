@@ -9,6 +9,7 @@ import { useUser } from '../hooks/useUser';
 
 interface UseImagesFolderSelector {
   imagesFolders: IntImagesFolder[] | undefined;
+  createdImagesFolder?: IntImagesFolder;
   createImageFolder: UseMutateFunction<IntImagesFolder, unknown, string, unknown>;
 }
 
@@ -31,7 +32,7 @@ export const useImagesFolderSelector = (): UseImagesFolderSelector => {
     }
   });
 
-  const { mutate: createImageFolder } = useMutation({
+  const { mutate: createImageFolder, data: createdImagesFolder } = useMutation({
     mutationFn: (imageFolderName: string) => postImageFolder(imageFolderName),
 
     onSuccess: async (data) => {
@@ -54,5 +55,5 @@ export const useImagesFolderSelector = (): UseImagesFolderSelector => {
     }
   });
 
-  return { imagesFolders, createImageFolder };
+  return { imagesFolders, createdImagesFolder, createImageFolder };
 };

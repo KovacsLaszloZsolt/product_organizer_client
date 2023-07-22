@@ -3,13 +3,14 @@ import { useTranslation } from 'next-i18next';
 import { UseMutateFunction, useMutation, useQuery, useQueryClient } from 'react-query';
 import { createProductCategory, fetchCategories } from '../../api/product';
 import { useProductsStore } from '../../store/home';
-import { ProductSelectFieldOptions } from '../../types/product';
+import { IntProductCategory, ProductSelectFieldOptions } from '../../types/product';
 import { ToastMessageTypeEnum } from '../../types/toastMessage';
 import { useUser } from './useUser';
 
 interface UseProductCategory {
   categories: ProductSelectFieldOptions[] | undefined;
   createCategory: UseMutateFunction<ProductSelectFieldOptions, unknown, string, unknown>;
+  createdCategory?: IntProductCategory;
 }
 
 export const useProductCategory = (): UseProductCategory => {
@@ -31,7 +32,7 @@ export const useProductCategory = (): UseProductCategory => {
     }
   });
 
-  const { mutate: createCategory } = useMutation({
+  const { mutate: createCategory, data: createdCategory } = useMutation({
     mutationFn: (newCategory: string) => createProductCategory(newCategory),
     onSuccess: async (data) => {
       queryClient.setQueryData('categories', (oldData: ProductSelectFieldOptions[] | undefined) => {
@@ -53,5 +54,5 @@ export const useProductCategory = (): UseProductCategory => {
     }
   });
 
-  return { categories, createCategory };
+  return { categories, createCategory, createdCategory };
 };

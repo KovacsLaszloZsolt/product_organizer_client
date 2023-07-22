@@ -12,7 +12,7 @@ import { useFormik } from 'formik';
 import { filter, forEach, isEqual, isNil, map } from 'lodash';
 import { useTranslation } from 'next-i18next';
 import Image from 'next/image';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import * as Yup from 'yup';
 import { createProduct, patchProduct } from '../../../api/product';
 import { availableProductStatuses } from '../../../constants/product';
@@ -23,6 +23,7 @@ import {
   SelectTypeEnum,
   StatusEnum
 } from '../../../types/product';
+import { modalOnCloseHandler } from '../../../utils/modalOnCloseHandler';
 import { ContentCopy } from '../../ContentCopy/ContentCopy';
 import { useImagesFolderSelector } from '../../ImagesFolderSelector/useImagesFolderSelector';
 import { ProductSelectField } from '../../ProductSelectField/ProductSelectField';
@@ -31,7 +32,6 @@ import { useProductBrand } from '../../hooks/useProductBrand';
 import { useProductCategory } from '../../hooks/useProductCategory';
 import { useProductOwner } from '../../hooks/useProductOwner';
 import * as S from './ProductModal.styles';
-import { modalOnCloseHandler } from '../../../utils/modalOnCloseHandler';
 
 interface ProductModalProps {
   product?: IntProduct | null;
@@ -59,10 +59,10 @@ export const ProductModal = ({ product, onClose }: ProductModalProps): JSX.Eleme
   };
 
   const { mutateProduct, isMutateProductLoading } = useProduct({ afterOnSuccess: handleClose });
-  const { imagesFolders, createImageFolder } = useImagesFolderSelector();
-  const { productOwners, createProductOwner } = useProductOwner();
-  const { categories, createCategory } = useProductCategory();
-  const { brands, createBrand } = useProductBrand();
+  const { imagesFolders, createdImagesFolder, createImageFolder } = useImagesFolderSelector();
+  const { productOwners, createdOwner, createProductOwner } = useProductOwner();
+  const { categories, createdCategory, createCategory } = useProductCategory();
+  const { brands, createdBrand, createBrand } = useProductBrand();
 
   const images = useMemo(() => {
     const oldImages = product?.images
@@ -155,6 +155,29 @@ export const ProductModal = ({ product, onClose }: ProductModalProps): JSX.Eleme
     ]);
   };
 
+  useEffect(() => {
+    if (!createdCategory) return;
+
+    setFieldValue('categoryId', createdCategory.id);
+  }, [createdCategory]);
+
+  useEffect(() => {
+    if (!createdBrand) return;
+
+    setFieldValue('brandId', createdBrand.id);
+  }, [createdBrand]);
+
+  useEffect(() => {
+    if (!createdImagesFolder) return;
+
+    setFieldValue('imagesFolderId', createdImagesFolder.id);
+  }, [createdImagesFolder]);
+
+  useEffect(() => {
+    if (!createdOwner) return;
+
+    setFieldValue('ownerId', createdOwner.id);
+  }, [createdOwner]);
   return (
     <div>
       <Dialog
@@ -356,7 +379,7 @@ export const ProductModal = ({ product, onClose }: ProductModalProps): JSX.Eleme
           </>
         </DialogContent>
         <DialogActions style={{ marginRight: '1rem' }}>
-          <Button color="error" onClick={handleClose}>
+          <Button color="error" onClick={handleClose} disabled={isMutateProductLoading}>
             {t('common:cancel')}
           </Button>
           <LoadingButton

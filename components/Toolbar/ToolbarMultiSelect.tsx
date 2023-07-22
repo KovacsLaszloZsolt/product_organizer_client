@@ -22,6 +22,7 @@ interface ToolbarMultiSelectProps {
   type: string;
   values: (number | StatusType)[];
   valuesKey: string;
+  withNullValue: boolean;
   handleChange: (e: SelectChangeEvent<(number | StatusType)[]>, key: string) => void;
 }
 
@@ -30,13 +31,28 @@ export const ToolbarMultiSelect = ({
   type,
   values,
   valuesKey,
+  withNullValue,
   handleChange
 }: ToolbarMultiSelectProps): JSX.Element => {
   const { t } = useTranslation('product');
 
+  const orderedOptions = useMemo(() => {
+    const sorted = sortBy(options, (option) => option.name.toLowerCase());
+
+    return withNullValue
+      ? [
+          {
+            id: -1,
+            name: t('product:no', { option: t(`product:product.${type}`).toLowerCase() })
+          },
+          ...sorted
+        ]
+      : sorted;
+  }, [options]);
+
   const renderValues = useMemo(() => {
     return sortBy(
-      options?.reduce((prev, curr) => {
+      orderedOptions?.reduce((prev, curr) => {
         if (values.includes(curr.id)) {
           prev.push(curr.name);
         }
@@ -45,11 +61,7 @@ export const ToolbarMultiSelect = ({
       }, [] as string[]),
       (option) => option.toLowerCase()
     );
-  }, [values, options]);
-
-  const orderedOptions = useMemo(() => {
-    return sortBy(options, (option) => option.name.toLowerCase());
-  }, [options]);
+  }, [values, orderedOptions]);
 
   return (
     <FormControl sx={{ width: 200 }}>
@@ -83,7 +95,7 @@ export const ToolbarMultiSelect = ({
       >
         {orderedOptions?.map((option) => (
           <MenuItem key={option.id} value={option.id} style={{ width: 200 }}>
-            <Checkbox checked={values.indexOf(option.id) > -1} />
+            <Checkbox checked={values.indexOf(option.id) !== -1} />
             <Typography noWrap>{option.name}</Typography>
           </MenuItem>
         ))}

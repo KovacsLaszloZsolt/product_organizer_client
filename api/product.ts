@@ -178,3 +178,29 @@ export const postImageFolder = async (name: string): Promise<IntImagesFolder> =>
 
   return data;
 };
+
+export const getNumberOfProducts = async (
+  filters?: IntFilters,
+  searchValue?: string
+): Promise<number> => {
+  const params = Object.keys(filters ?? {}).reduce((acc, key) => {
+    const _key = key as FilterType;
+    const value = filters?.[_key];
+
+    if (!value || !value.length) {
+      return acc;
+    }
+    acc[_key] = value.join(',');
+    return acc;
+  }, {} as Partial<Record<FilterType | 'search' | 'page', string | number>>);
+
+  if (searchValue) {
+    params.search = searchValue;
+  }
+
+  const { data } = await unprotectedApi.get<number>('/api/product/count', {
+    params
+  });
+
+  return data;
+};

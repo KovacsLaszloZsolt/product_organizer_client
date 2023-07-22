@@ -9,6 +9,7 @@ import { useUser } from './useUser';
 
 interface IntUseProductBrand {
   brands: ProductSelectFieldOptions[] | undefined;
+  createdBrand?: ProductSelectFieldOptions;
   createBrand: UseMutateFunction<ProductSelectFieldOptions, unknown, string, unknown>;
 }
 
@@ -31,7 +32,7 @@ export const useProductBrand = (): IntUseProductBrand => {
     }
   });
 
-  const { mutate: createBrand } = useMutation({
+  const { mutate: createBrand, data: createdBrand } = useMutation({
     mutationFn: (newBrand: string) => createProductBrand(newBrand),
     onSuccess: async (data) => {
       queryClient.setQueryData('brands', (oldData: ProductSelectFieldOptions[] | undefined) => {
@@ -53,5 +54,5 @@ export const useProductBrand = (): IntUseProductBrand => {
     }
   });
 
-  return { brands, createBrand };
+  return { brands, createdBrand, createBrand };
 };

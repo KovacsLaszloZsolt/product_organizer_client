@@ -9,6 +9,7 @@ import { useUser } from './useUser';
 
 interface UseProductOwner {
   productOwners: IntProductOwner[] | undefined;
+  createdOwner?: IntProductOwner;
   createProductOwner: UseMutateFunction<IntProductOwner, unknown, string, unknown>;
 }
 
@@ -31,7 +32,7 @@ export const useProductOwner = (): UseProductOwner => {
     }
   });
 
-  const { mutate: createProductOwner } = useMutation({
+  const { mutate: createProductOwner, data: createdOwner } = useMutation({
     mutationFn: (productOwner: string) => createPoOwner(productOwner),
 
     onSuccess: async (data) => {
@@ -54,5 +55,5 @@ export const useProductOwner = (): UseProductOwner => {
     }
   });
 
-  return { productOwners, createProductOwner };
+  return { productOwners, createdOwner, createProductOwner };
 };
