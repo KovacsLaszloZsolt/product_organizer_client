@@ -38,8 +38,3 @@ export const ActionButtonsWrapper = styled(Box)`
   display: flex;
   align-self: flex-start;
 `;
-
-export const FormButtons = styled.div<{ isVisible: boolean }>`
-  display: flex;
-  opacity: ${({ isVisible }): number => (isVisible ? 1 : 0)};
-`;

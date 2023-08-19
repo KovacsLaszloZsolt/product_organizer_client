@@ -1,4 +1,3 @@
-import { Check, Clear } from '@mui/icons-material';
 import TuneIcon from '@mui/icons-material/Tune';
 import { SelectChangeEvent } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
@@ -9,6 +8,7 @@ import { useMemo } from 'react';
 import { useProductsStore } from '../../store/home';
 import { RoleEnum } from '../../types/auth';
 import { StatusEnum, StatusType } from '../../types/product';
+import { ActionButtons } from '../ActionButtons/ActionButtons';
 import { useImagesFolderSelector } from '../ImagesFolderSelector/useImagesFolderSelector';
 import { useProductBrand } from '../hooks/useProductBrand';
 import { useProductCategory } from '../hooks/useProductCategory';
@@ -44,6 +44,12 @@ export const Toolbar = (): JSX.Element => {
     onSubmit: (_values) => {}
   });
 
+  const isFormActionButtonsVisible = useMemo(() => {
+    return !isEqual(
+      omitBy(values, isEmpty),
+      omitBy(filters, (item) => isEmpty(item))
+    );
+  }, [values, filters]);
   const handleChange = (event: SelectChangeEvent<(number | StatusType)[]>, key: string): void => {
     const {
       target: { value }
@@ -56,7 +62,7 @@ export const Toolbar = (): JSX.Element => {
     setFilters(values);
   };
 
-  const handleDelete = (): void => {
+  const handleCancel = (): void => {
     resetForm({ ownerId: [], categoryId: [], status: [], imagesFolderId: [] } as IntFormValues);
     setFilters({});
   };
@@ -135,27 +141,11 @@ export const Toolbar = (): JSX.Element => {
       )}
       <S.ActionButtonsWrapper>
         {isToolbarOpen && (
-          <S.FormButtons
-            isVisible={
-              !isEqual(
-                omitBy(values, isEmpty),
-                omitBy(filters, (item) => isEmpty(item))
-              )
-            }
-          >
-            <IconButton
-              aria-label={t(`common:toolbar.button.apply`) || undefined}
-              onClick={handleSave}
-            >
-              <Check color="success" />
-            </IconButton>
-            <IconButton
-              aria-label={t(`common:toolbar.button.delete`) || undefined}
-              onClick={handleDelete}
-            >
-              <Clear color="error" />
-            </IconButton>
-          </S.FormButtons>
+          <ActionButtons
+            isVisible={isFormActionButtonsVisible}
+            handleCancel={handleCancel}
+            handleSave={handleSave}
+          />
         )}
         <IconButton
           aria-label={t(`common:toolbar.button.filter`) || undefined}

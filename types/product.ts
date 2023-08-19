@@ -12,11 +12,8 @@ export interface IntProduct {
   status: StatusType;
   images?: IntImage[];
   imagesFolderId?: number | null;
+  note?: string | null;
 }
-
-// export interface IntCreateOrUpdateProduct extends Partial<IntProduct> {
-//   files?: FileList;
-// }
 
 export type StatusType = 'AVAILABLE' | 'BOOKED' | 'SOLD';
 
