@@ -15,18 +15,20 @@ export interface IntProduct {
   note?: string | null;
 }
 
-export type StatusType = 'AVAILABLE' | 'BOOKED' | 'SOLD';
+export type StatusType = 'AVAILABLE' | 'BOOKED' | 'SOLD' | 'POST';
 
 export enum StatusEnum {
   AVAILABLE = 'AVAILABLE',
   BOOKED = 'BOOKED',
-  SOLD = 'SOLD'
+  SOLD = 'SOLD',
+  POST = 'POST'
 }
 
 export enum StatusColorEnum {
   AVAILABLE = 'success',
   BOOKED = 'warning',
-  SOLD = 'error'
+  SOLD = 'error',
+  POST = 'info'
 }
 
 export interface IntImage {

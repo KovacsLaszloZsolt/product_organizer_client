@@ -97,7 +97,8 @@ export const Toolbar = (): JSX.Element => {
         options: [
           { id: StatusEnum.AVAILABLE, name: t(`common:status.${StatusEnum.AVAILABLE}`) },
           { id: StatusEnum.BOOKED, name: t(`common:status.${StatusEnum.BOOKED}`) },
-          { id: StatusEnum.SOLD, name: t(`common:status.${StatusEnum.SOLD}`) }
+          { id: StatusEnum.SOLD, name: t(`common:status.${StatusEnum.SOLD}`) },
+          { id: StatusEnum.POST, name: t(`common:status.${StatusEnum.POST}`) }
         ],
         type: 'status',
         values: values.status,

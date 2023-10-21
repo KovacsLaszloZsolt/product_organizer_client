@@ -33,7 +33,8 @@
     "status": "Státusz",
     "AVAILABLE": "Elérhető",
     "BOOKED": "Foglalt",
-    "SOLD": "Eladva"
+    "SOLD": "Eladva",
+    "POST": "Posta"
   },
   "hello": "Szia",
   "toast": {
