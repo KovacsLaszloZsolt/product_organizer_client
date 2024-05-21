@@ -13,22 +13,25 @@ export interface IntProduct {
   images?: IntImage[];
   imagesFolderId?: number | null;
   note?: string | null;
+  withDelivery: boolean;
 }
 
-export type StatusType = 'AVAILABLE' | 'BOOKED' | 'SOLD' | 'POST';
+export type StatusType = 'AVAILABLE' | 'BOOKED' | 'SOLD' | 'POST' | 'PENDING';
 
 export enum StatusEnum {
   AVAILABLE = 'AVAILABLE',
   BOOKED = 'BOOKED',
   SOLD = 'SOLD',
-  POST = 'POST'
+  POST = 'POST',
+  PENDING = 'PENDING'
 }
 
 export enum StatusColorEnum {
   AVAILABLE = 'success',
   BOOKED = 'warning',
   SOLD = 'error',
-  POST = 'info'
+  POST = 'info',
+  PENDING = 'warning'
 }
 
 export interface IntImage {

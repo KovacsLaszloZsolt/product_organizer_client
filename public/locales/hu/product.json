@@ -22,5 +22,6 @@
   },
   "emptyList": "Nincs ilyen termék",
   "numberOfProducts": "{{productsCount}} termék",
-  "no": "Nincs {{option}}"
+  "no": "Nincs {{option}}",
+  "withDelivery": "Szállítással"
 }

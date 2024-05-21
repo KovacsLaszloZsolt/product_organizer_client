@@ -5,17 +5,16 @@ import { useProductsStore } from '../../store/home';
 import { ToastMessageTypeEnum } from '../../types/toastMessage';
 
 interface useProductsCountProps {
-  numberOfProjects: number | undefined;
+  numberOfProducts: number | undefined;
 }
 
 export const useProductsCount = (): useProductsCountProps => {
   const { searchValue, filters, setToastMessage } = useProductsStore();
 
-  const { data: numberOfProjects } = useQuery<number, Error>({
+  const { data: numberOfProducts } = useQuery<number, Error>({
     queryKey: ['productsCount', filters, searchValue],
     queryFn: () => getNumberOfProducts(filters, searchValue),
     staleTime: 1000 * 60 * 15,
-    keepPreviousData: true,
 
     onError: (_error) => {
       setToastMessage({
@@ -25,5 +24,5 @@ export const useProductsCount = (): useProductsCountProps => {
     }
   });
 
-  return { numberOfProjects };
+  return { numberOfProducts };
 };

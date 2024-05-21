@@ -34,7 +34,8 @@
     "AVAILABLE": "Elérhető",
     "BOOKED": "Foglalt",
     "SOLD": "Eladva",
-    "POST": "Posta"
+    "POST": "Posta",
+    "PENDING": "Függőben"
   },
   "hello": "Szia",
   "toast": {

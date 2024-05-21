@@ -57,17 +57,17 @@ export const ProductHeader = styled.div`
 export const ProductName = styled.div`
   font-size: 1.5rem;
   font-weight: 600;
-  max-width: 44rem;
+  max-width: 40rem;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 
   @media (max-width: ${Breakpoints.extraLarge}) {
-    max-width: 32rem;
+    max-width: 28rem;
   }
 
   @media (max-width: ${Breakpoints.large}) {
-    max-width: 20rem;
+    max-width: 16rem;
   }
 
   @media (max-width: ${Breakpoints.small}) {

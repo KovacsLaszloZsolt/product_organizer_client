@@ -19,7 +19,7 @@ export const Header = (): JSX.Element => {
   const [isCreateProductModalOpen, setIsCreateProductModalOpen] = useState(false);
   const [searchInputValue, setSearchInputValue] = useState('');
   const { searchValue, setSearchValue } = useProductsStore();
-  const { numberOfProjects } = useProductsCount();
+  const { numberOfProducts } = useProductsCount();
   return (
     <>
       <S.Header>
@@ -31,7 +31,7 @@ export const Header = (): JSX.Element => {
           <Toolbar />
           <S.ActionContainer>
             <Chip
-              label={t('product:numberOfProducts', { productsCount: numberOfProjects ?? 0 })}
+              label={t('product:numberOfProducts', { productsCount: numberOfProducts ?? 0 })}
               variant="outlined"
             />
             <span>

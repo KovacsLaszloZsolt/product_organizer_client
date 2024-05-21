@@ -57,6 +57,7 @@ export const createProduct = async (
     if (isNil(value)) {
       return;
     }
+
     formData.append(key, `${value}`);
   });
 

@@ -6,7 +6,9 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
-  IconButton
+  FormControlLabel,
+  IconButton,
+  Switch
 } from '@mui/material';
 import { useFormik } from 'formik';
 import { filter, forEach, isEqual, isNil, map } from 'lodash';
@@ -118,7 +120,8 @@ export const ProductModal = ({ product, onClose }: ProductModalProps): JSX.Eleme
       ownerId: product?.ownerId ?? null,
       categoryId: product?.categoryId ?? null,
       status: product?.status ?? StatusEnum.AVAILABLE,
-      imagesFolderId: product?.imagesFolderId ?? null
+      imagesFolderId: product?.imagesFolderId ?? null,
+      withDelivery: product?.withDelivery ?? true
     },
     validationSchema: Yup.object({
       name: Yup.string().required(
@@ -178,6 +181,7 @@ export const ProductModal = ({ product, onClose }: ProductModalProps): JSX.Eleme
 
     setFieldValue('ownerId', createdOwner.id);
   }, [createdOwner]);
+
   return (
     <div>
       <Dialog
@@ -208,22 +212,39 @@ export const ProductModal = ({ product, onClose }: ProductModalProps): JSX.Eleme
               />
               <ContentCopy value={values.name} />
             </S.InputWrapper>
-            <S.InputWrapper>
-              <S.InputField
-                id="description"
-                variant="outlined"
-                label={t('product:product.description')}
-                multiline
-                fullWidth
-                size="small"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.description}
-                error={!!(touched.description && errors.description)}
-                helperText={errors.description}
-              />
-              <ContentCopy value={values.description} />
-            </S.InputWrapper>
+            <S.MultipleRowContainer>
+              <S.InputWrapper>
+                <S.InputField
+                  id="description"
+                  variant="outlined"
+                  label={t('product:product.description')}
+                  multiline
+                  fullWidth
+                  size="small"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.description}
+                  error={!!(touched.description && errors.description)}
+                  helperText={errors.description}
+                  style={!product ? { marginBottom: '0.50625rem' } : {}}
+                />
+                <ContentCopy value={values.description} />
+              </S.InputWrapper>
+              {!product && (
+                <FormControlLabel
+                  control={
+                    <Switch
+                      checked={values.withDelivery}
+                      onClick={(): void => {
+                        setFieldValue('withDelivery', !values.withDelivery);
+                      }}
+                    />
+                  }
+                  label={t('product:withDelivery')}
+                  labelPlacement="start"
+                />
+              )}
+            </S.MultipleRowContainer>
 
             <ProductSelectField
               options={availableProductStatuses.map((status) => ({ id: status, name: status }))}

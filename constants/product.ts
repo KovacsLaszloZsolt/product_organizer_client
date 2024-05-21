@@ -4,5 +4,6 @@ export const availableProductStatuses: StatusType[] = [
   StatusEnum.AVAILABLE,
   StatusEnum.BOOKED,
   StatusEnum.SOLD,
-  StatusEnum.POST
+  StatusEnum.POST,
+  StatusEnum.PENDING
 ];

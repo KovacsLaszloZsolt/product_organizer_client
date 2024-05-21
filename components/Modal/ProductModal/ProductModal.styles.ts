@@ -35,6 +35,14 @@ export const InputWrapper = styled.span<{ hasBottomMargin?: boolean }>`
   align-items: flex-start;
 `;
 
+export const MultipleRowContainer = styled.div`
+  width: inherit;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 2rem;
+  align-items: start;
+`;
+
 export const SelectContainer = styled.span`
   width: inherit;
   margin-bottom: 2rem;
